@@ -1,5 +1,6 @@
-# juezuan
+# 仿掘金网站 Nuxt.js
 
+项目参考：[nuxt-ssr-demo](https://github.com/xuqiang521/nuxt-ssr-demo)
 > Nuxt.js project
 
 ## Build Setup

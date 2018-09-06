@@ -55,6 +55,46 @@ export default {
     return {
       recommends: res.d
     }
+  },
+  mounted () {
+    this.getFullPageData()
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
+  methods: {
+    getFullPageData () {
+      if (document.body.offsetHeight < window.innerHeight) {
+        this.loadMoreData().then(res => {
+          if (res.s === 1) {
+            this.getFullPageData()
+          }
+        })
+      }
+    },
+    handleScroll () {
+      this.timer && clearTimeout(this.timer)
+      this.timer = setTimeout(this.loadMoreData, 300)
+    },
+    loadMoreData () {
+      return new Promise((resolve) => {
+        let $el = document.documentElement
+        let $entry = this.$refs.entry
+        let clienHeight = $el.clientHeight
+        let style = window.getComputedStyle ? window.getComputedStyle($entry, null) : null || $entry.currentStyle
+        let containerHeight = ~~style.height.split('px')[0] + 140
+        // 设置【返回顶部】显示隐藏
+        document.querySelector('.to-top-btn').classList[$el.scrollTop > 120 ? 'add' : 'remove']('show')
+        // console.log(containerHeight, $el.scrollTop + clienHeight, clienHeight)
+        // 滚动到一定高度，重新加载数据
+        if ($el.scrollTop + clienHeight > containerHeight - 10 && this.scrollStatus) {
+          getData(this.$store, this).then(res => {
+            resolve(res)
+          })
+        }
+      })
+    }
   }
 }
 </script>

@@ -111,9 +111,9 @@ export default {
         let $entry = this.$refs.entry
         let clientHeight = $el.clientHeight
         let style = window.getComputedStyle ? window.getComputedStyle($entry, null) : null | $entry.currentStyle
-        console.log('~~style', ~~style.height.split('px')[0])
         let containerHeight = ~~style.height.split('px')[0] + 140
-        console.log('containerHeight', containerHeight)
+        //
+        document.querySelector('.to-top-btn').classList[$el.scrollTop > 120 ? 'add' : 'remove']('show')
         //
         if ($el.scrollTop + clientHeight > containerHeight - 10 && this.scrollStatus) {
           getData(this.$store, this.$route.params, this).then(res => {
@@ -125,3 +125,10 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.entry-list {
+  width 100%
+  background #fff
+}
+</style>

@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     goTop () {
+      document.documentElement.scrollTop = 0
     }
   }
 }
